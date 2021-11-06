@@ -34,6 +34,10 @@ public:
 
 private:
 	SDL_Texture* img;
+	SDL_Rect Cuadrado;
+	SDL_Surface* PantallaV;
+	SDL_Rect player;
+
 };
 
 #endif // __SCENE_H__

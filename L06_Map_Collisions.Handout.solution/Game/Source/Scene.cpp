@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "Map.h"
 
+
 #include "Defs.h"
 #include "Log.h"
 
@@ -31,10 +32,20 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
+	Cuadrado.x = 0;
+	Cuadrado.y = 0;
+	Cuadrado.w = 50;
+	Cuadrado.h = 50;
+
 	// L03: DONE: Load map
 	app->map->Load("hello.tmx");
 	app->audio->PlayMusic("Assets/audio/music/music_spy.ogg");
 
+	player.x = 100;
+	player.y = 100;
+	player.w = 200;
+	player.h = 200;
+	
 	return true;
 }
 
@@ -47,6 +58,8 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
+
+	
     // L02: DONE 3: Request Load / Save when pressing L/S
 	if(app->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		app->LoadGameRequest();
@@ -78,6 +91,22 @@ bool Scene::Update(float dt)
 				   app->map->mapData.tilesets.count());
 
 	app->win->SetTitle(title.GetString());
+
+	
+	SDL_SetRenderDrawColor(app->render->renderer, 0xFF, 0x00, 0x00, 0xFF);
+	SDL_RenderFillRect(app->render->renderer, &player);
+
+	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+		player.y -= 5;
+
+	if(app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		player.x -= 5;
+
+	if(app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+		player.y += 5;
+
+	if(app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		player.x += 5;
 
 	return true;
 }

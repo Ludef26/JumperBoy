@@ -61,12 +61,20 @@ void Map::Draw()
 
 				int gid = mapLayerItem->data->Get(x,y); 
 				SDL_Rect r = mapData.tilesets.start->data->GetTileRect(gid);
+
 				iPoint pos = MapToWorld(x, y);
 
 				app->render->DrawTexture(mapData.tilesets.start->data->texture,
 					pos.x,
 					pos.y,
-					&r);				 
+					&r);	
+
+			
+				SDL_SetRenderDrawColor(app->render->renderer, 0xFF, 0x00, 0x00, 0xFF);
+				SDL_RenderFillRect(app->render->renderer, &r);
+			
+
+				
 			}
 		}
 
@@ -100,6 +108,8 @@ SDL_Rect TileSet::GetTileRect(int id) const
 	rect.h = tile_height; 
 	rect.x = margin + (tile_width + spacing) * (relativeIndex % columns);
 	rect.y = margin + (tile_width + spacing) * (relativeIndex / columns);
+
+
 
 	return rect;
 }
@@ -288,6 +298,7 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	{
 		layer->data[i] = tile.attribute("gid").as_int();
 		i++;
+
 	}
 
 	return ret;
@@ -301,6 +312,7 @@ bool Map::LoadAllLayers(pugi::xml_node mapNode) {
 		//Load the layer
 		MapLayer* mapLayer = new MapLayer();
 		ret = LoadLayer(layerNode,mapLayer);
+
 
 		//add the layer to the map
 		mapData.maplayers.add(mapLayer);
