@@ -32,10 +32,6 @@ bool Scene::Awake()
 // Called before the first frame
 bool Scene::Start()
 {
-	Cuadrado.x = 0;
-	Cuadrado.y = 0;
-	Cuadrado.w = 50;
-	Cuadrado.h = 50;
 
 	// L03: DONE: Load map
 	app->map->Load("hello.tmx");
@@ -43,8 +39,8 @@ bool Scene::Start()
 
 	player.x = 100;
 	player.y = 100;
-	player.w = 200;
-	player.h = 200;
+	player.w = 32;
+	player.h = 32;
 	
 	return true;
 }
@@ -97,16 +93,16 @@ bool Scene::Update(float dt)
 	SDL_RenderFillRect(app->render->renderer, &player);
 
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-		player.y -= 5;
+		player.y -= 1;
 
 	if(app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-		player.x -= 5;
+		player.x -= 1;
 
 	if(app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-		player.y += 5;
+		player.y += 1;
 
 	if(app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		player.x += 5;
+		player.x += 1;
 
 	return true;
 }

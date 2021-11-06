@@ -26,6 +26,8 @@ bool Map::Awake(pugi::xml_node& config)
 
     folder.Create(config.child("folder").child_value());
 
+	
+
     return ret;
 }
 
@@ -68,12 +70,11 @@ void Map::Draw()
 					pos.x,
 					pos.y,
 					&r);	
+				
+				
 
-			
-				SDL_SetRenderDrawColor(app->render->renderer, 0xFF, 0x00, 0x00, 0xFF);
-				SDL_RenderFillRect(app->render->renderer, &r);
-			
-
+				
+				
 				
 			}
 		}
@@ -108,6 +109,8 @@ SDL_Rect TileSet::GetTileRect(int id) const
 	rect.h = tile_height; 
 	rect.x = margin + (tile_width + spacing) * (relativeIndex % columns);
 	rect.y = margin + (tile_width + spacing) * (relativeIndex / columns);
+
+
 
 
 
