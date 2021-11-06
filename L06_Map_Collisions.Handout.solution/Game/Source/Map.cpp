@@ -64,6 +64,7 @@ void Map::Draw()
 				int gid = mapLayerItem->data->Get(x,y); 
 				SDL_Rect r = mapData.tilesets.start->data->GetTileRect(gid);
 
+
 				iPoint pos = MapToWorld(x, y);
 
 				app->render->DrawTexture(mapData.tilesets.start->data->texture,
@@ -71,7 +72,10 @@ void Map::Draw()
 					pos.y,
 					&r);	
 				
-				
+					SDL_SetRenderDrawColor(app->render->renderer, 0xFF, 0x00, 0x00, 0xFF);
+					SDL_RenderFillRect(app->render->renderer,&r);
+	
+		
 
 				
 				
@@ -103,6 +107,7 @@ SDL_Rect TileSet::GetTileRect(int id) const
 {
 	SDL_Rect rect = { 0 };
 	int relativeIndex = id - firstgid;
+
 	
 	// L04: TODO 7: Get relative Tile rectangle
 	rect.w = tile_width;
@@ -112,6 +117,9 @@ SDL_Rect TileSet::GetTileRect(int id) const
 
 
 
+
+
+	
 
 
 	return rect;
@@ -154,45 +162,45 @@ bool Map::Load(const char* filename)
     bool ret = true;
     SString tmp("%s%s", folder.GetString(), filename);
 
-	pugi::xml_document mapFile; 
-    pugi::xml_parse_result result = mapFile.load_file(tmp.GetString());
+pugi::xml_document mapFile;
+pugi::xml_parse_result result = mapFile.load_file(tmp.GetString());
 
-    if(result == NULL)
-    {
-        LOG("Could not load map xml file %s. pugi error: %s", filename, result.description());
-        ret = false;
-    }
+if (result == NULL)
+{
+	LOG("Could not load map xml file %s. pugi error: %s", filename, result.description());
+	ret = false;
+}
 
-    if(ret == true)
-    {
-		ret = LoadMap(mapFile);
-	}
-	
-    if (ret == true)
-    {
-        ret = LoadTileSets(mapFile.child("map"));
-    }
+if (ret == true)
+{
+	ret = LoadMap(mapFile);
+}
 
-	// L04: TODO 4: Iterate all layers and load each of them
-	if (ret == true)
-	{
-		ret = LoadAllLayers(mapFile.child("map"));
-	}
+if (ret == true)
+{
+	ret = LoadTileSets(mapFile.child("map"));
+}
 
-    if(ret == true)
-    {
-        // L03: TODO 5: LOG all the data loaded iterate all tilesets and LOG everything
+// L04: TODO 4: Iterate all layers and load each of them
+if (ret == true)
+{
+	ret = LoadAllLayers(mapFile.child("map"));
+}
+
+if (ret == true)
+{
+	// L03: TODO 5: LOG all the data loaded iterate all tilesets and LOG everything
 
 
-		// L04: TODO 4: LOG the info for each loaded layer
-    }
-	
-	// Clean up the pugui tree
-	if(mapFile) mapFile.reset();
+	// L04: TODO 4: LOG the info for each loaded layer
+}
 
-    mapLoaded = ret;
+// Clean up the pugui tree
+if (mapFile) mapFile.reset();
 
-    return ret;
+mapLoaded = ret;
+
+return ret;
 }
 
 // L03: DONE 3: Implement LoadMap to load the map properties
@@ -200,6 +208,7 @@ bool Map::LoadMap(pugi::xml_node mapFile)
 {
 	bool ret = true;
 	pugi::xml_node map = mapFile.child("map");
+
 
 	if (map == NULL)
 	{
@@ -210,9 +219,12 @@ bool Map::LoadMap(pugi::xml_node mapFile)
 	{
 		// L03: DONE 3: Load map general properties
 		mapData.height = map.attribute("height").as_int();
-        mapData.width = map.attribute("width").as_int();
-        mapData.tileHeight = map.attribute("tileheight").as_int();
-        mapData.tileWidth = map.attribute("tilewidth").as_int();
+		mapData.width = map.attribute("width").as_int();
+		mapData.tileHeight = map.attribute("tileheight").as_int();
+		mapData.tileWidth = map.attribute("tilewidth").as_int();
+
+
+
 	}
 
 	return ret;
@@ -250,6 +262,10 @@ bool Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
 	set->tilecount = tileset_node.attribute("tilecount").as_int();
 	set->columns = tileset_node.attribute("columns").as_int();
 	pugi::xml_node offset = tileset_node.child("tileoffset");
+
+	
+	
+
 
 	return ret;
 }

@@ -160,6 +160,7 @@ bool Render::DrawTexture(SDL_Texture* texture, int x, int y, const SDL_Rect* sec
 		ret = false;
 	}
 
+
 	return ret;
 }
 
